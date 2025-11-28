@@ -7,7 +7,7 @@
 using namespace std;
 
 struct infotypeGuru {
-    string GuruID;
+    string guruID;
     string nama;
     string bidang;
     int totalJamAjar;
