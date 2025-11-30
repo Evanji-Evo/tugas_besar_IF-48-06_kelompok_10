@@ -1,7 +1,4 @@
-#ifndef GURU_H_INCLUDED
-#define GURU_H_INCLUDED
-
-#include "matpel.h"
+#include "header_103012400161.hpp"
 #include <iostream>
 #include <string>
 using namespace std;
@@ -19,7 +16,7 @@ struct elmGuru {
     infotypeGuru info;
     adrGuru prev;
     adrGuru next;
-    adrMatpel child;
+    addressMP MataPelajaran;
 };
 
 struct ListGuru {
@@ -35,8 +32,7 @@ void deleteFirstGuru(ListGuru &L, adrGuru &P);
 void deleteGuru(ListGuru &L, string NIP, adrGuru &P);
 adrGuru findGuru(ListGuru L, string NIP);
 void showAllData(ListGuru L);
-void addMatpelToGuru(ListGuru &L, string NIP, infotypeMatpel dataMatpel);
+void addMatpelToGuru(ListGuru &L, string NIP, infotypeMP dataMatpel);
 void removeMatpelFromGuru(ListGuru &L, string NIP, string kodeMatpel);
 void hitungTotalJam(ListGuru &L);
 
-#endif // GURU_H_INCLUDED
