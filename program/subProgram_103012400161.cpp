@@ -1,5 +1,4 @@
-#include "header_103012400161.hpp"
-#include "header_103012400419.hpp"
+#include"header.h"
 
 void createListMataPlejaran(ListMapel &L){
     L.firstMP = nullptr;

@@ -1,7 +1,4 @@
-#include "header_103012400419.hpp"
-#include <iostream>
-#include <limits>
-using namespace std;
+#include"header.h"
 
 void clearScreen() {
     #ifdef _WIN32

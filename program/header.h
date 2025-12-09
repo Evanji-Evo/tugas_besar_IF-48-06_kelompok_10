@@ -1,7 +1,30 @@
-#include "header_103012400161.hpp"
+#ifndef HEADER_H_INCLUDED
+#define HEADER_H_INCLUDED
+
 #include <iostream>
 #include <string>
+#include <limits>
 using namespace std;
+
+typedef struct elmGuru *adrGuru;
+typedef struct elmListMatPel *addressMP;
+typedef struct Mata_Pelajaran infotypeMP;
+
+//mapel = mata pelajaran
+struct Mata_Pelajaran
+{   
+    string bidang_studi_mapel;
+    string kode_mapel;
+    string tingkat_mapel;
+    string kelas_mapel;
+};
+
+struct elmListMatPel
+{   
+    infotypeMP infoMP;
+    addressMP nextMP;
+    addressMP prevMP;
+};
 
 struct infotypeGuru {
     string NIP;
@@ -10,7 +33,6 @@ struct infotypeGuru {
     int totalJamAjar;
 };
 
-typedef struct elmGuru *adrGuru;
 
 struct elmGuru {
     infotypeGuru info;
@@ -23,6 +45,7 @@ struct ListGuru {
     adrGuru first;
     adrGuru last;
 };
+
 
 void createListGuru(ListGuru &L);
 adrGuru createElmGuru(infotypeGuru x);
@@ -48,3 +71,24 @@ adrGuru findGuruWithMostJam(ListGuru L);     // komputasi 2: guru dgn jam terban
 void showAllMatpelUnique(ListGuru L);        // show semua mapel unik
 void showGuruByBidang(ListGuru L, string bidang);  // pencarian berdasarkan bidang
 addressMP findMatpelByKode(ListGuru L, string kodeMapel); 
+
+addressMP createElemenMataPelajaran(infotypeMP x);
+void insertFirstMataPelajaran(adrGuru &MataPelajaranPertama, addressMP p);
+void insertLastMataPelajaran(adrGuru &MataPelajaranPertama, addressMP p);
+void insertAfterMataPelajaran(adrGuru &MataPelajaranPertama, addressMP prec,addressMP p);
+void delateFirstMataPelajaran(adrGuru &MataPelajaranPertama, addressMP p);
+void delateLastMataPelajaran(adrGuru &MataPelajaranPertama, addressMP p);
+void delateAfterMataPelajaran(adrGuru &MataPelajaranPertama, addressMP prec,addressMP p);
+addressMP cariMataPelajaran(adrGuru MataPelajaranPertama,addressMP search);
+void showMataPelajaran(adrGuru MataPelajaranPertama);
+
+void menu_primitif();
+void menu_unik();
+void menu_parents();
+void menu_child();
+void menu_insert_child();
+void menu_delate_child();
+void menu_lainnya_child();
+
+
+#endif // HEADER_H_INCLUDED

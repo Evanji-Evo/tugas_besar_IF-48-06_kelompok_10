@@ -1,7 +1,4 @@
-#include"header_103012400161.hpp"
-#include"header_103012400419.hpp"
-#include"menu.hpp"
-
+#include"header.h"
 
 int main(){
     while (1){
