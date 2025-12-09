@@ -16,7 +16,7 @@ struct elmGuru {
     infotypeGuru info;
     adrGuru prev;
     adrGuru next;
-    addressMP MataPelajaran;
+    addressMP MataPelajaranPertama;
 };
 
 struct ListGuru {

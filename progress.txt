@@ -1,2 +1,0 @@
-1.Perubahan pertama
--Penambahan main program, subprogram dan header file
