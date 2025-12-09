@@ -1,6 +1,10 @@
+#include "header_103012400419.hpp"
 #include <iostream>
 #include <string>
 using namespace std;
+
+typedef struct elmListMatPel *addressMP;
+typedef struct Mata_Pelajaran infotypeMP;
 
 //mapel = mata pelajaran
 struct Mata_Pelajaran
@@ -18,24 +22,14 @@ struct elmListMatPel
     addressMP prevMP;
 };
 
-struct ListMapel
-{
-    addressMP firstMP;
-    addressMP lastMP;
-};
-
-typedef struct elmListMatPel *addressMP;
-typedef struct Mata_Pelajaran infotypeMP;
-
-void createListMataPlejaran(ListMapel &L);
 addressMP createElemenMataPelajaran(infotypeMP x);
-void insertFirstMataPelajaran(ListMapel &L, addressMP p);
-void insertLastMataPelajaran(ListMapel &L, addressMP p);
-void insertAfterMataPelajaran(ListMapel &L, addressMP prec,addressMP p);
-void delateFirstMataPelajaran(ListMapel &L, addressMP p);
-void delateLastMataPelajaran(ListMapel &L, addressMP p);
-void delateAfterMataPelajaran(ListMapel &L, addressMP prec,addressMP p);
-addressMP cariMataPelajaran(ListMapel &L, addressMP search);
-void showMataPelajaran(ListMapel &L);
+void insertFirstMataPelajaran(adrGuru &MataPelajaranPertama, addressMP p);
+void insertLastMataPelajaran(adrGuru &MataPelajaranPertama, addressMP p);
+void insertAfterMataPelajaran(adrGuru &MataPelajaranPertama, addressMP prec,addressMP p);
+void delateFirstMataPelajaran(adrGuru &MataPelajaranPertama, addressMP p);
+void delateLastMataPelajaran(adrGuru &MataPelajaranPertama, addressMP p);
+void delateAfterMataPelajaran(adrGuru &MataPelajaranPertama, addressMP prec,addressMP p);
+addressMP cariMataPelajaran(adrGuru MataPelajaranPertama,addressMP search);
+void showMataPelajaran(adrGuru MataPelajaranPertama);
 
 
