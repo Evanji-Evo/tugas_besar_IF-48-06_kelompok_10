@@ -1,26 +1,35 @@
-#include"header.h"
+#include "header.h"
 
-int main(){
-    while (1){
-        int opsiPilihan;
-        
+void runMenuAdmin(ListGuru &L);
+void runMenuUser(ListGuru &L);
+
+int main() {
+    ListGuru L;
+    createListGuru(L);
+
+    int pilihan = -1;
+
+    while (pilihan != 0) {
         cout << "=====================================\n";
-        cout << "           MAIN MENU                 \n";
+        cout << "      APLIKASI DATA GURU & MAPEL     \n";
         cout << "=====================================\n";
-        cout << "  1. Kasus Primitif\n";
-        cout << "  2. Kasus Unik\n";
+        cout << "  1. Login sebagai Admin\n";
+        cout << "  2. Login sebagai User\n";
         cout << "  0. Keluar\n";
         cout << "-------------------------------------\n";
-        cout << "Enter your choice: ";
+        cout << "Pilihan: ";
+        cin >> pilihan;
 
-        switch (opsiPilihan)
-        {
-            case 0 :
-                return 0;
-            case 1 :
-                menu_primitif();
-            case 2 :
-                menu_unik();
-        } 
+        if (pilihan == 1) {
+            runMenuAdmin(L);
+        } else if (pilihan == 2) {
+            runMenuUser(L);
+        } else if (pilihan == 0) {
+            cout << "Terima kasih." << endl;
+        } else {
+            cout << "Pilihan tidak valid.\n" << endl;
+        }
     }
+
+    return 0;
 }
