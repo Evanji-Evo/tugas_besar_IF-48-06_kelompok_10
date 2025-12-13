@@ -1,4 +1,4 @@
-#include "header_103012400419.hpp"
+#include "header.h"
 
 // Inisialisasi list guru
 void createListGuru(ListGuru &L) {
@@ -12,7 +12,8 @@ adrGuru createElmGuru(infotypeGuru x) {
     p->info = x;
     p->prev = NULL;
     p->next = NULL;
-    p->MataPelajaran = NULL;
+    // PERBAIKAN: Gunakan MataPelajaranPertama
+    p->MataPelajaranPertama = NULL;
     return p;
 }
 
@@ -95,15 +96,16 @@ void deleteGuru(ListGuru &L, string NIP, adrGuru &P) {
         cout << "Guru dengan NIP " << NIP << " tidak ditemukan." << endl;
         return;
     }
-    
-    // Hapus semua mata pelajaran yang diajar
-    while (P->MataPelajaran != NULL) {
-        addressMP tempMP;
-        deleteFirstMataPelajaran(P->MataPelajaran, tempMP);
+
+    // Hapus semua mata pelajaran yang diajar (Child)
+    // PERBAIKAN: Gunakan MataPelajaranPertama
+    addressMP tempMP;
+    while (P->MataPelajaranPertama != NULL) {
+        deleteFirstMataPelajaran(P->MataPelajaranPertama, tempMP);
         delete tempMP;
     }
-    
-    // Hapus guru dari list
+
+    // Hapus guru dari list (Parent)
     if (P == L.first && P == L.last) {
         L.first = NULL;
         L.last = NULL;
@@ -117,7 +119,7 @@ void deleteGuru(ListGuru &L, string NIP, adrGuru &P) {
         P->prev->next = P->next;
         P->next->prev = P->prev;
     }
-    
+
     P->next = NULL;
     P->prev = NULL;
 }
@@ -140,7 +142,7 @@ void showAllGuru(ListGuru L) {
         cout << "Tidak ada data guru." << endl;
         return;
     }
-    
+
     adrGuru p = L.first;
     int no = 1;
     cout << "\n========================================" << endl;
@@ -151,7 +153,12 @@ void showAllGuru(ListGuru L) {
         cout << "   Nama   : " << p->info.nama << endl;
         cout << "   Bidang : " << p->info.bidang << endl;
         cout << "   Total Jam Mengajar: " << p->info.totalJamAjar << " jam/minggu" << endl;
-        cout << "   Jumlah Mata Pelajaran: " << countMataPelajaran(p->MataPelajaran) << endl;
+        // PERBAIKAN: Manual count loop karena fungsi countMataPelajaran sudah dihapus/diganti
+        int jmlMapel = 0;
+        addressMP m = p->MataPelajaranPertama;
+        while(m != NULL) { jmlMapel++; m = m->nextMP; }
+
+        cout << "   Jumlah Mata Pelajaran: " << jmlMapel << endl;
         cout << "----------------------------------------" << endl;
         p = p->next;
     }
@@ -163,7 +170,7 @@ void showAllData(ListGuru L) {
         cout << "Tidak ada data guru." << endl;
         return;
     }
-    
+
     adrGuru p = L.first;
     int no = 1;
     cout << "\n========================================" << endl;
@@ -175,7 +182,8 @@ void showAllData(ListGuru L) {
         cout << "   Bidang : " << p->info.bidang << endl;
         cout << "   Total Jam Mengajar: " << p->info.totalJamAjar << " jam/minggu" << endl;
         cout << "   Mata Pelajaran yang Diajar:" << endl;
-        showMataPelajaran(p->MataPelajaran);
+        // PERBAIKAN: Gunakan MataPelajaranPertama
+        showMataPelajaran(p->MataPelajaranPertama);
         cout << "========================================" << endl;
         p = p->next;
     }
@@ -192,59 +200,18 @@ int countGuru(ListGuru L) {
     return count;
 }
 
-// Tambah mata pelajaran ke guru
-void addMatpelToGuru(ListGuru &L, string NIP, infotypeMP dataMatpel) {
-    adrGuru guru = findGuru(L, NIP);
-    if (guru == NULL) {
-        cout << "Guru dengan NIP " << NIP << " tidak ditemukan." << endl;
-        return;
-    }
-    
-    // Cek apakah mata pelajaran sudah ada
-    if (cariMataPelajaran(guru->MataPelajaran, dataMatpel.kode_mapel) != NULL) {
-        cout << "Mata pelajaran dengan kode " << dataMatpel.kode_mapel 
-             << " sudah diajar oleh guru ini." << endl;
-        return;
-    }
-    
-    addressMP newMapel = createElemenMataPelajaran(dataMatpel);
-    insertLastMataPelajaran(guru->MataPelajaran, newMapel);
-    guru->info.totalJamAjar += dataMatpel.jumlah_jam;
-    
-    cout << "Mata pelajaran berhasil ditambahkan ke guru " << guru->info.nama << endl;
-}
-
-// Hapus mata pelajaran dari guru
-void removeMatpelFromGuru(ListGuru &L, string NIP, string kodeMatpel) {
-    adrGuru guru = findGuru(L, NIP);
-    if (guru == NULL) {
-        cout << "Guru dengan NIP " << NIP << " tidak ditemukan." << endl;
-        return;
-    }
-    
-    addressMP mapel = cariMataPelajaran(guru->MataPelajaran, kodeMatpel);
-    if (mapel == NULL) {
-        cout << "Mata pelajaran dengan kode " << kodeMatpel 
-             << " tidak ditemukan pada guru ini." << endl;
-        return;
-    }
-    
-    int jamMapel = mapel->infoMP.jumlah_jam;
-    addressMP deletedMapel;
-    deleteMataPelajaran(guru->MataPelajaran, kodeMatpel, deletedMapel);
-    
-    if (deletedMapel != NULL) {
-        guru->info.totalJamAjar -= jamMapel;
-        delete deletedMapel;
-        cout << "Mata pelajaran berhasil dihapus dari guru " << guru->info.nama << endl;
-    }
-}
-
 // Hitung total jam mengajar semua guru (update totalJamAjar)
 void hitungTotalJam(ListGuru &L) {
     adrGuru p = L.first;
     while (p != NULL) {
-        p->info.totalJamAjar = hitungTotalJamMapel(p->MataPelajaran);
+        // Hitung manual total jam dari list child
+        int total = 0;
+        addressMP m = p->MataPelajaranPertama; // PERBAIKAN
+        while(m != NULL) {
+            total += m->infoMP.jumlah_jam;
+            m = m->nextMP;
+        }
+        p->info.totalJamAjar = total;
         p = p->next;
     }
     cout << "Total jam mengajar semua guru berhasil diperbarui." << endl;
@@ -253,30 +220,36 @@ void hitungTotalJam(ListGuru &L) {
 // KOMPUTASI 1: Cari guru dengan mata pelajaran terbanyak
 adrGuru findGuruWithMostMatpel(ListGuru L) {
     if (L.first == NULL) return NULL;
-    
+
     adrGuru maxGuru = L.first;
-    int maxCount = countMataPelajaran(L.first->MataPelajaran);
-    
+    // Hitung mapel guru pertama
+    int maxCount = 0;
+    addressMP m = L.first->MataPelajaranPertama;
+    while(m != NULL) { maxCount++; m = m->nextMP; }
+
     adrGuru p = L.first->next;
     while (p != NULL) {
-        int count = countMataPelajaran(p->MataPelajaran);
-        if (count > maxCount) {
-            maxCount = count;
+        int currentCount = 0;
+        addressMP cm = p->MataPelajaranPertama;
+        while(cm != NULL) { currentCount++; cm = cm->nextMP; }
+
+        if (currentCount > maxCount) {
+            maxCount = currentCount;
             maxGuru = p;
         }
         p = p->next;
     }
-    
+
     return maxGuru;
 }
 
 // KOMPUTASI 2: Cari guru dengan jam mengajar terbanyak
 adrGuru findGuruWithMostJam(ListGuru L) {
     if (L.first == NULL) return NULL;
-    
+
     adrGuru maxGuru = L.first;
     int maxJam = L.first->info.totalJamAjar;
-    
+
     adrGuru p = L.first->next;
     while (p != NULL) {
         if (p->info.totalJamAjar > maxJam) {
@@ -285,7 +258,7 @@ adrGuru findGuruWithMostJam(ListGuru L) {
         }
         p = p->next;
     }
-    
+
     return maxGuru;
 }
 
@@ -295,18 +268,18 @@ void showAllMatpelUnique(ListGuru L) {
         cout << "Tidak ada data." << endl;
         return;
     }
-    
+
     cout << "\n========================================" << endl;
     cout << "       DAFTAR MATA PELAJARAN UNIK" << endl;
     cout << "========================================" << endl;
-    
+
     string listedKode[100];
     int countListed = 0;
     int no = 1;
-    
+
     adrGuru p = L.first;
     while (p != NULL) {
-        addressMP mapel = p->MataPelajaran;
+        addressMP mapel = p->MataPelajaranPertama; // PERBAIKAN
         while (mapel != NULL) {
             // Cek apakah sudah ditampilkan
             bool sudahAda = false;
@@ -316,24 +289,24 @@ void showAllMatpelUnique(ListGuru L) {
                     break;
                 }
             }
-            
+
             if (!sudahAda) {
-                cout << no++ << ". " << mapel->infoMP.kode_mapel 
+                cout << no++ << ". " << mapel->infoMP.kode_mapel
                      << " - " << mapel->infoMP.bidang_studi_mapel
-                     << " (" << mapel->infoMP.tingkat_mapel 
+                     << " (" << mapel->infoMP.tingkat_mapel
                      << " - Kelas " << mapel->infoMP.kelas_mapel << ")" << endl;
                 cout << "   Diajar oleh: " << p->info.nama << endl;
                 cout << "   Jam/minggu: " << mapel->infoMP.jumlah_jam << endl;
                 cout << "----------------------------------------" << endl;
-                
+
                 listedKode[countListed++] = mapel->infoMP.kode_mapel;
             }
-            
+
             mapel = mapel->nextMP;
         }
         p = p->next;
     }
-    
+
     if (no == 1) {
         cout << "Tidak ada mata pelajaran." << endl;
     }
@@ -345,27 +318,32 @@ void showGuruByBidang(ListGuru L, string bidang) {
         cout << "Tidak ada data guru." << endl;
         return;
     }
-    
+
     cout << "\n========================================" << endl;
     cout << "    GURU BIDANG: " << bidang << endl;
     cout << "========================================" << endl;
-    
+
     adrGuru p = L.first;
     int no = 1;
     bool found = false;
-    
+
     while (p != NULL) {
         if (p->info.bidang == bidang) {
             found = true;
             cout << no++ << ". NIP    : " << p->info.NIP << endl;
             cout << "   Nama   : " << p->info.nama << endl;
             cout << "   Total Jam: " << p->info.totalJamAjar << " jam/minggu" << endl;
-            cout << "   Jumlah Mapel: " << countMataPelajaran(p->MataPelajaran) << endl;
+
+            int jmlMapel = 0;
+            addressMP m = p->MataPelajaranPertama;
+            while(m != NULL) { jmlMapel++; m = m->nextMP; }
+
+            cout << "   Jumlah Mapel: " << jmlMapel << endl;
             cout << "----------------------------------------" << endl;
         }
         p = p->next;
     }
-    
+
     if (!found) {
         cout << "Tidak ada guru dengan bidang " << bidang << endl;
     }
@@ -375,7 +353,7 @@ void showGuruByBidang(ListGuru L, string bidang) {
 addressMP findMatpelByKode(ListGuru L, string kodeMapel) {
     adrGuru p = L.first;
     while (p != NULL) {
-        addressMP mapel = cariMataPelajaran(p->MataPelajaran, kodeMapel);
+        addressMP mapel = cariMataPelajaran(p->MataPelajaranPertama, kodeMapel); // PERBAIKAN
         if (mapel != NULL) {
             return mapel;
         }

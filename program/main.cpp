@@ -1,26 +1,34 @@
-#include"header.h"
+#include "header.h"
 
-int main(){
-    while (1){
-        int opsiPilihan;
-        
-        cout << "=====================================\n";
-        cout << "           MAIN MENU                 \n";
-        cout << "=====================================\n";
-        cout << "  1. Kasus Primitif\n";
-        cout << "  2. Kasus Unik\n";
-        cout << "  0. Keluar\n";
-        cout << "-------------------------------------\n";
-        cout << "Enter your choice: ";
+// Forward Declaration
+void runMenuAdmin(ListGuru &L);
+void runMenuUser(ListGuru &L);
 
-        switch (opsiPilihan)
-        {
-            case 0 :
-                return 0;
-            case 1 :
-                menu_primitif();
-            case 2 :
-                menu_unik();
-        } 
+int main() {
+    ListGuru L;
+    createListGuru(L); // Panggil Header
+
+    int pilihan = -1;
+
+    while (pilihan != 0) {
+        cout << "\n##########################################" << endl;
+        cout << "        APLIKASI DATA GURU & MAPEL        " << endl;
+        cout << "##########################################" << endl;
+        cout << "1. ADMIN (Full Access - Insert/Delete)" << endl;
+        cout << "2. USER (Read Only - Search/View)" << endl;
+        cout << "0. EXIT" << endl;
+        cout << "Pilihan: ";
+        cin >> pilihan;
+
+        if (pilihan == 1) {
+            runMenuAdmin(L);
+        } else if (pilihan == 2) {
+            runMenuUser(L);
+        } else if (pilihan == 0) {
+            cout << "Terima Kasih." << endl;
+        } else {
+            cout << "Pilihan salah." << endl;
+        }
     }
+    return 0;
 }
