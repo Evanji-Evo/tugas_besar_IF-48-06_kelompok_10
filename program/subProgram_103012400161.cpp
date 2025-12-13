@@ -1,119 +1,114 @@
-#include"header.h"
+#include "header.h"
 
-void createListMataPlejaran(ListMapel &L){
-    L.firstMP = nullptr;
-    L.lastMP = nullptr;
-}
-
-addressMP createElemenMataPelajaran(infotypeMP x){
+addressMP createElemenMataPelajaran(infotypeMP x) {
     addressMP p = new elmListMatPel;
-
     p->infoMP = x;
-    p->nextMP = nullptr;
-    p->prevMP = nullptr;
-
+    p->nextMP = NULL;
+    p->prevMP = NULL;
     return p;
-
 }
 
-void insertFirstMataPelajaran(ListMapel &L, addressMP p){
-    if (L.firstMP == nullptr && L.lastMP == nullptr){
-        L.firstMP = p;
-        L.lastMP = p;
-    }else{
-        p->nextMP = L.firstMP;
-        L.firstMP->prevMP = p;
-        L.firstMP = p;
+void insertFirstMataPelajaran(addressMP &MataPelajaranPertama, addressMP p) {
+    if (MataPelajaranPertama == NULL) {
+        MataPelajaranPertama = p;
+    } else {
+        p->nextMP = MataPelajaranPertama;
+        MataPelajaranPertama->prevMP = p;
+        MataPelajaranPertama = p;
     }
 }
 
-void insertLastMataPelajaran(ListMapel &L, addressMP p){
-    if (L.firstMP == nullptr && L.lastMP == nullptr){
-        L.firstMP = p;
-        L.lastMP = p;
-    }else{
-        p->prevMP = L.lastMP;
-        L.lastMP->nextMP = p;
-        L.lastMP = p;
+void insertLastMataPelajaran(addressMP &MataPelajaranPertama, addressMP p) {
+    if (MataPelajaranPertama == NULL) {
+        MataPelajaranPertama = p;
+    } else {
+        addressMP last = MataPelajaranPertama;
+        while (last->nextMP != NULL) {
+            last = last->nextMP;
+        }
+        last->nextMP = p;
+        p->prevMP = last;
     }
 }
 
-void insertAfterMataPelajaran(ListMapel &L, addressMP prec,addressMP p){
-    addressMP q = prec->nextMP;
-
-    if (prec == nullptr){
-        L.firstMP = p;
-        L.lastMP = p;
-    }else{
-        p->nextMP = q;
+void insertAfterMataPelajaran(addressMP &MataPelajaranPertama, addressMP prec, addressMP p) {
+    if (prec != NULL) {
+        p->nextMP = prec->nextMP;
         p->prevMP = prec;
-        q->prevMP = p;
+        if (prec->nextMP != NULL) {
+            prec->nextMP->prevMP = p;
+        }
         prec->nextMP = p;
     }
 }
 
-void delateFirstMataPelajaran(ListMapel &L, addressMP p){
-    if (L.firstMP == nullptr && L.lastMP == nullptr){
-        p = nullptr;
-    }else if (L.firstMP == L.lastMP)
-    {
-        p = L.firstMP;
-        L.firstMP = nullptr;
-        L.lastMP = nullptr;
-    }else{
-        p = L.firstMP;
-        L.firstMP = p->nextMP;
-        L.firstMP->prevMP = nullptr;
+void deleteFirstMataPelajaran(addressMP &MataPelajaranPertama, addressMP &p) {
+    p = MataPelajaranPertama;
+    if (MataPelajaranPertama != NULL) {
+        if (MataPelajaranPertama->nextMP == NULL) {
+            MataPelajaranPertama = NULL;
+        } else {
+            MataPelajaranPertama = MataPelajaranPertama->nextMP;
+            MataPelajaranPertama->prevMP = NULL;
+            p->nextMP = NULL;
+        }
     }
 }
 
-void delateLastMataPelajaran(ListMapel &L, addressMP p){
-     if (L.firstMP == nullptr && L.lastMP == nullptr){
-        p = nullptr;
-    }else if (L.firstMP == L.lastMP)
-    {
-        p = L.lastMP;
-        L.firstMP = nullptr;
-        L.lastMP = nullptr;
-    }else{
-        p = L.lastMP;
-        L.lastMP = p->prevMP;
-        L.lastMP->nextMP = nullptr;
+void deleteLastMataPelajaran(addressMP &MataPelajaranPertama, addressMP &p) {
+    p = MataPelajaranPertama;
+    if (MataPelajaranPertama != NULL) {
+        if (MataPelajaranPertama->nextMP == NULL) {
+            MataPelajaranPertama = NULL;
+        } else {
+            addressMP last = MataPelajaranPertama;
+            while (last->nextMP != NULL) {
+                last = last->nextMP;
+            }
+            p = last;
+            last->prevMP->nextMP = NULL;
+            p->prevMP = NULL;
+        }
     }
 }
 
-void delateAfterMataPelajaran(ListMapel &L, addressMP prec,addressMP p){
-    addressMP q = prec->nextMP;
-
-    if (prec == nullptr){
-        p = nullptr;
-    }else{
-        p = q;
+void deleteAfterMataPelajaran(addressMP &MataPelajaranPertama, addressMP prec, addressMP &p) {
+    if (prec != NULL && prec->nextMP != NULL) {
+        p = prec->nextMP;
         prec->nextMP = p->nextMP;
-        p->nextMP->prevMP = prec;
-        p->nextMP = nullptr;
-        p->prevMP = nullptr;
+        if (p->nextMP != NULL) {
+            p->nextMP->prevMP = prec;
+        }
+        p->nextMP = NULL;
+        p->prevMP = NULL;
+    } else {
+        p = NULL;
     }
 }
 
-addressMP cariMataPelajaran(ListMapel &L, addressMP search){
-    addressMP p = L.firstMP;
-
-    while(p != nullptr && p != search){
+addressMP cariMataPelajaran(addressMP MataPelajaranPertama, string kode_mapel) {
+    addressMP p = MataPelajaranPertama;
+    while (p != NULL) {
+        if (p->infoMP.kode_mapel == kode_mapel) {
+            return p;
+        }
         p = p->nextMP;
     }
-
-    return p;
+    return NULL;
 }
 
-void showMataPelajaran(ListMapel &L){
-    addressMP p = L.firstMP;
-    int i = 1;
-
-    while(p != nullptr){
-        cout << i << ". " << p->infoMP.bidang_studi_mapel << " (" << p->infoMP.kode_mapel <<" )\n";
-        cout << "   " << "Kelas: " << p->infoMP.kelas_mapel << " Tingkat: " << p->infoMP.tingkat_mapel << "\n\n";
-        p = p->nextMP;
-        i++;
+void showMataPelajaran(addressMP MataPelajaranPertama) {
+    if (MataPelajaranPertama == NULL) {
+        cout << "   (Belum ada mata pelajaran)" << endl;
+    } else {
+        addressMP p = MataPelajaranPertama;
+        int i = 1;
+        while (p != NULL) {
+            cout << "   " << i << ". [" << p->infoMP.kode_mapel << "] "
+                 << p->infoMP.bidang_studi_mapel << " - Kelas " << p->infoMP.kelas_mapel
+                 << " (" << p->infoMP.jumlah_jam << " jam)" << endl;
+            p = p->nextMP;
+            i++;
+        }
     }
 }
