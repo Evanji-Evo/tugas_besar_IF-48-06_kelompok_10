@@ -135,7 +135,38 @@ adrGuru findGuru(ListGuru L, string NIP) {
     }
     return NULL;
 }
+//Tampilkan semua guru saja tanpa matalPelajaran
+void showOneGuruAllMapel(ListGuru L, string NIP){
+    if (L.first == NULL) {
+        cout << "Tidak ada data guru." << endl;
+        return;
+    }
+    adrGuru p = L.first;
+    adrGuru q = nullptr;
 
+    while (p != nullptr){
+        if (p->info.NIP == NIP){
+            q = p;
+        }
+        p = p->next;
+    }
+
+    if (q == nullptr){
+        cout << "\nData tersebut kosong";
+    }else{
+        cout << "\n========================================" << endl;
+        cout << "    DAFTAR GURU & MATA PELAJARAN" << endl;
+        cout << "========================================" << endl;
+        cout << "   NIP    : " << q->info.NIP << endl;
+        cout << "   Nama   : " << q->info.nama << endl;
+        cout << "   Bidang : " << q->info.bidang << endl;
+        cout << "   Total Jam Mengajar: " << q->info.totalJamAjar << " jam/minggu" << endl;
+        cout << "   Mata Pelajaran yang Diajar:" << endl;
+        // PERBAIKAN: Gunakan MataPelajaranPertama
+        showMataPelajaran(q->MataPelajaranPertama);
+        cout << "========================================" << endl;
+    }
+}
 // Tampilkan semua guru
 void showAllGuru(ListGuru L) {
     if (L.first == NULL) {

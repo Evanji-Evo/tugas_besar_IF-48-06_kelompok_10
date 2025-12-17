@@ -61,8 +61,10 @@ void hitungTotalJam(ListGuru &L);
 // --- KOMPUTASI ---
 adrGuru findGuruWithMostMatpel(ListGuru L);
 adrGuru findGuruWithMostJam(ListGuru L);
+void showOneGuruAllMapel(ListGuru L, string NIP);
 void showGuruByBidang(ListGuru L, string bidang);
 void showAllMatpelUnique(ListGuru L);
+void showGuruWIthTheSameMapel(ListGuru L);
 addressMP findMatpelByKode(ListGuru L, string kodeMapel);
 
 // --- PRIMITIF MATA PELAJARAN (CHILD) ---

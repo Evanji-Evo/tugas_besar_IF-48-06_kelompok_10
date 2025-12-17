@@ -11,8 +11,12 @@ void runMenuUser(ListGuru &L) {
         cout << "1. Cari Guru (Berdasarkan NIP)" << endl;
         cout << "2. Cari Guru (Berdasarkan Bidang)" << endl;
         cout << "3. Cari Mata Pelajaran (Global Search)" << endl;
-        cout << "4. Tampilkan Mata Pelajaran Unik" << endl;
-        cout << "5. Statistik Guru (Mapel & Jam Terbanyak)" << endl;
+        cout << "4. Show All Guru (List Saja)" << endl;
+        cout << "5. Show One Guru All Mapel (Satu Guru Semua Mapel)" << endl;
+        cout << "6. Show All Data (Lengkap dengan Mapel)" << endl;
+        cout << "7. Tampilkan Mata Pelajaran Unik" << endl;
+        cout << "8. Tampilkan Guru-Guru Dengan Mapel Yang Sama" << endl;
+        cout << "9. Statistik Guru (Mapel & Jam Terbanyak)" << endl;
         cout << "0. Kembali ke Menu Utama" << endl;
         cout << "Pilihan: ";
         cin >> pilihan;
@@ -37,9 +41,24 @@ void runMenuUser(ListGuru &L) {
             } else cout << "Mapel tidak ditemukan di guru manapun." << endl;
         }
         else if (pilihan == 4) {
-            showAllMatpelUnique(L); // Panggil Header
+            showAllGuru(L);
         }
         else if (pilihan == 5) {
+            string NIP;
+            showAllGuru(L);
+            cout << "NIP Guru yang mau di tampilkan: "; 
+            cin >> NIP;
+            showOneGuruAllMapel(L,NIP);
+        }else if (pilihan == 6) {
+            showAllData(L);
+        }
+        else if (pilihan == 7) {
+            showAllMatpelUnique(L); // Panggil Header
+        }
+        else if (pilihan == 8) {
+            showGuruWIthTheSameMapel(L);
+        }
+        else if (pilihan == 9) {
             cout << "--- Statistik Sistem ---" << endl;
             adrGuru gJam = findGuruWithMostJam(L); // Panggil Header
             if (gJam != NULL)

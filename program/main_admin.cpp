@@ -20,7 +20,8 @@ void runMenuAdmin(ListGuru &L) {
         if (pilihan == 1) {
             int subGuru = -1;
             while (subGuru != 0) {
-                cout << "\n   --- MANAJEMEN GURU ---" << endl;
+                showAllGuru(L);
+                cout << "\n\n   --- MANAJEMEN GURU ---" << endl;
                 cout << "   1. Insert First Guru" << endl;
                 cout << "   2. Insert Last Guru" << endl;
                 cout << "   3. Insert Sorted Guru (By NIP)" << endl;
@@ -78,12 +79,14 @@ void runMenuAdmin(ListGuru &L) {
             if (L.first == NULL) {
                 cout << "   [!] Data Guru masih kosong." << endl;
             } else {
+                showAllGuru(L);
                 cout << "   Masukkan NIP Guru Target: "; cin >> NIP;
                 adrGuru P = findGuru(L, NIP);
 
                 if (P == NULL) {
                     cout << "   [!] Guru tidak ditemukan." << endl;
                 } else {
+                    cout << "\n   --- DATA GURU SAAT INI ---" << endl;
                     cout << "   Guru Terpilih: " << P->info.nama << endl;
                     cout << "   Mapel saat ini:" << endl;
                     showMataPelajaran(P->MataPelajaranPertama);
@@ -125,6 +128,8 @@ void runMenuAdmin(ListGuru &L) {
                                     insertLastMataPelajaran(P->MataPelajaranPertama, pMapel);
                                     cout << "   [v] Insert Last Mapel sukses." << endl;
                                 } else if (subMapel == 3) {
+                                    cout << "\n";
+                                    showAllGuru(L);
                                     cout << "   Insert SETELAH kode mapel apa? "; cin >> kodePrec;
                                     prec = cariMataPelajaran(P->MataPelajaranPertama, kodePrec);
                                     if (prec != NULL) {
@@ -144,6 +149,8 @@ void runMenuAdmin(ListGuru &L) {
                             } else if (subMapel == 5) {
                                 deleteLastMataPelajaran(P->MataPelajaranPertama, deleted);
                             } else if (subMapel == 6) {
+                                cout << "\n";
+                                showAllGuru(L);
                                 cout << "   Hapus mapel SETELAH kode apa? "; cin >> kodePrec;
                                 prec = cariMataPelajaran(P->MataPelajaranPertama, kodePrec);
                                 if (prec != NULL) {
@@ -159,6 +166,10 @@ void runMenuAdmin(ListGuru &L) {
                                 cout << "   [!] Hapus gagal (List kosong/Target salah)." << endl;
                             }
                         }
+                    cout << "\n   --- DATA GURU SAAT INI ---" << endl;
+                    cout << "   Guru Terpilih: " << P->info.nama << endl;
+                    cout << "   Mapel saat ini:" << endl;
+                    showMataPelajaran(P->MataPelajaranPertama);
                     }
                 }
             }
@@ -166,13 +177,23 @@ void runMenuAdmin(ListGuru &L) {
 
         // --- SUB MENU 3: VIEW DATA ---
         else if (pilihan == 3) {
+            adrGuru p;
             cout << "\n   1. Show All Guru (List Saja)" << endl;
-            cout << "   2. Show All Data (Lengkap dengan Mapel)" << endl;
+            cout << "   2. Show One Guru All Mapel (Satu Guru Semua Mapel)" << endl;
+            cout << "   3. Show All Data (Lengkap dengan Mapel)" << endl;
             cout << "   Pilihan: ";
             int subView;
             cin >> subView;
-            if (subView == 1) showAllGuru(L); // Panggil Header
-            else if (subView == 2) showAllData(L); // Panggil Header
+
+            if (subView == 1){
+                showAllGuru(L); // Panggil Header
+            } else if (subView == 2) {
+                string NIP;
+                showAllGuru(L);
+                cout << "NIP Guru yang mau di tampilkan: "; 
+                cin >> NIP;
+                showOneGuruAllMapel(L,NIP);
+            }else if (subView == 3) showAllData(L); // Panggil Header
         }
 
         // --- SUB MENU 4: UTILITIES ---

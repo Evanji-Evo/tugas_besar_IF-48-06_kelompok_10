@@ -112,3 +112,30 @@ void showMataPelajaran(addressMP MataPelajaranPertama) {
         }
     }
 }
+
+void showGuruWIthTheSameMapel(ListGuru L){
+    adrGuru p_now = L.first;
+
+    cout << "\n=== Guru Dengan Mapel Yang Sama ===" << endl;
+    while (p_now->next != nullptr) {
+        addressMP pMP_now = p_now->MataPelajaranPertama;
+        while(pMP_now != nullptr){
+            adrGuru p_chek = p_now->next;
+            while(p_chek != nullptr){
+                addressMP pMP_chek = p_chek->MataPelajaranPertama;
+                while(pMP_chek != nullptr){
+                    if (pMP_now->infoMP.bidang_studi_mapel == pMP_chek->infoMP.bidang_studi_mapel) {
+                        cout << "Mapel  : " << pMP_now->infoMP.bidang_studi_mapel << endl;
+                        cout << "Guru 1 : " << p_now->info.nama  << endl;
+                        cout << "Guru 2 : " << p_chek->info.nama << endl;
+                        cout << "===================================" << endl;
+                    }
+                    pMP_chek = pMP_chek->nextMP;
+                }
+                p_chek = p_chek->next;
+            }
+            pMP_now = pMP_now->nextMP;
+        }
+        p_now = p_now->next;
+    }
+}
