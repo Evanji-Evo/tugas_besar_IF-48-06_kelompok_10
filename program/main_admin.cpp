@@ -15,6 +15,7 @@ void runMenuAdmin(ListGuru &L) {
         cout << "0. Kembali ke Menu Utama" << endl;
         cout << "Pilihan: ";
         cin >> pilihan;
+        clearScreen();
 
         // --- SUB MENU 1: GURU ---
         if (pilihan == 1) {
@@ -31,6 +32,7 @@ void runMenuAdmin(ListGuru &L) {
                 cout << "   0. Kembali" << endl;
                 cout << "   Pilihan Guru: ";
                 cin >> subGuru;
+                clearScreen();
 
                 if (subGuru >= 1 && subGuru <= 3) {
                     // INPUT DATA GURU
@@ -93,6 +95,7 @@ void runMenuAdmin(ListGuru &L) {
 
                     int subMapel = -1;
                     while (subMapel != 0) {
+                        
                         cout << "\n   --- MANAJEMEN MAPEL (CHILD) ---" << endl;
                         cout << "   1. Insert First Mapel" << endl;
                         cout << "   2. Insert Last Mapel" << endl;
@@ -103,7 +106,8 @@ void runMenuAdmin(ListGuru &L) {
                         cout << "   0. Selesai/Kembali" << endl;
                         cout << "   Pilihan Mapel: ";
                         cin >> subMapel;
-
+                        clearScreen();
+                    
                         addressMP pMapel, prec, deleted;
                         infotypeMP dataM;
                         string kodePrec;
@@ -177,6 +181,7 @@ void runMenuAdmin(ListGuru &L) {
 
         // --- SUB MENU 3: VIEW DATA ---
         else if (pilihan == 3) {
+            clearScreen();
             adrGuru p;
             cout << "\n   1. Show All Guru (List Saja)" << endl;
             cout << "   2. Show One Guru All Mapel (Satu Guru Semua Mapel)" << endl;
@@ -184,6 +189,7 @@ void runMenuAdmin(ListGuru &L) {
             cout << "   Pilihan: ";
             int subView;
             cin >> subView;
+            clearScreen();
 
             if (subView == 1){
                 showAllGuru(L); // Panggil Header
@@ -203,6 +209,9 @@ void runMenuAdmin(ListGuru &L) {
             cout << "   Pilihan: ";
             int subUtil;
             cin >> subUtil;
+
+            clearScreen();
+            
             if (subUtil == 1) {
                 cout << "   Total Guru: " << countGuru(L) << endl; // Panggil Header
             } else if (subUtil == 2) {

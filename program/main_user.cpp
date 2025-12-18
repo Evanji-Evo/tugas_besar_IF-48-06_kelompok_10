@@ -20,8 +20,10 @@ void runMenuUser(ListGuru &L) {
         cout << "0. Kembali ke Menu Utama" << endl;
         cout << "Pilihan: ";
         cin >> pilihan;
+        clearScreen();
 
         if (pilihan == 1) {
+            showAllGuru(L);
             cout << "Masukkan NIP: "; cin >> inputStr;
             adrGuru P = findGuru(L, inputStr); // Panggil Header
             if (P != NULL) {
@@ -30,6 +32,7 @@ void runMenuUser(ListGuru &L) {
             } else cout << "Tidak ditemukan." << endl;
         }
         else if (pilihan == 2) {
+            showAllGuru(L);
             cout << "Masukkan Bidang: "; cin >> inputStr;
             showGuruByBidang(L, inputStr); // Panggil Header
         }

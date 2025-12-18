@@ -84,4 +84,7 @@ void deleteAfterMataPelajaran(addressMP &MataPelajaranPertama, addressMP prec, a
 addressMP cariMataPelajaran(addressMP MataPelajaranPertama, string kode_mapel);
 void showMataPelajaran(addressMP MataPelajaranPertama);
 
+//Clear function
+void clearScreen();
+
 #endif // HEADER_H_INCLUDED

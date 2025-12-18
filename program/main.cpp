@@ -19,6 +19,7 @@ int main() {
         cout << "0. EXIT" << endl;
         cout << "Pilihan: ";
         cin >> pilihan;
+        clearScreen();
 
         if (pilihan == 1) {
             runMenuAdmin(L);
