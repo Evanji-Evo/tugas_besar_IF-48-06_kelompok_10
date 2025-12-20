@@ -133,7 +133,11 @@ void runMenuAdmin(ListGuru &L) {
                                     cout << "   [v] Insert Last Mapel sukses." << endl;
                                 } else if (subMapel == 3) {
                                     cout << "\n";
-                                    showAllGuru(L);
+                                    cout << "\n   --- DATA GURU SAAT INI ---" << endl;
+                                    cout << "   Guru Terpilih: " << P->info.nama << endl;
+                                    cout << "   Mapel saat ini:" << endl;
+                                    showMataPelajaran(P->MataPelajaranPertama);
+
                                     cout << "   Insert SETELAH kode mapel apa? "; cin >> kodePrec;
                                     prec = cariMataPelajaran(P->MataPelajaranPertama, kodePrec);
                                     if (prec != NULL) {
@@ -154,7 +158,12 @@ void runMenuAdmin(ListGuru &L) {
                                 deleteLastMataPelajaran(P->MataPelajaranPertama, deleted);
                             } else if (subMapel == 6) {
                                 cout << "\n";
-                                showAllGuru(L);
+                                cout << "\n";
+                                cout << "\n   --- DATA GURU SAAT INI ---" << endl;
+                                cout << "   Guru Terpilih: " << P->info.nama << endl;
+                                cout << "   Mapel saat ini:" << endl;
+                                showMataPelajaran(P->MataPelajaranPertama);
+                                
                                 cout << "   Hapus mapel SETELAH kode apa? "; cin >> kodePrec;
                                 prec = cariMataPelajaran(P->MataPelajaranPertama, kodePrec);
                                 if (prec != NULL) {
