@@ -66,6 +66,7 @@ void runMenuAdmin(ListGuru &L) {
                         if (P != NULL) cout << "   [v] Guru Last (" << P->info.nama << ") dihapus." << endl;
                     }
                     else if (subGuru == 6) {
+                        showAllGuru(L);
                         cout << "   Masukkan NIP yg dihapus: "; cin >> inputString;
                         deleteGuru(L, inputString, P);
                         if (P != NULL) cout << "   [v] Guru (" << P->info.nama << ") dihapus." << endl;
